@@ -50,16 +50,16 @@ use yii\helpers\Html;
                     </form>
                 </div>-->
                 <div class="categories">
-                    <h3>CATEGORIES</h3>
-                    <li class="active"><a href="#">Donec quis dui at dolor tempor</a></li>
-                    <li><a href="#">Vestibulum commodo felis quis tort</a></li>
-                    <li><a href="#">Fusce pellentesque suscipit</a></li>
+                    <h3>Категории:</h3>
+                    <li class="active"><a href="#">Политика</a></li>
+                    <li><a href="#">Культура</a></li>
+                    <li><a href="#">Спорт</a></li>
                 </div>
                 <div class="archives">
-                    <h3>ARCHIVES</h3>
-                    <li class="active"><a href="#">July 2014</a></li>
-                    <li><a href="#">June 2014</a></li>
-                    <li><a href="#">May 2014</a></li>
+                    <h3>Архив:</h3>
+                    <li class="active"><a href="#">Май 2015</a></li>
+                    <li><a href="#">Июнь 2015</a></li>
+                    <li><a href="#">Июль 2015</a></li>
                 </div>
             </div>
             <div class="clearfix"></div>
