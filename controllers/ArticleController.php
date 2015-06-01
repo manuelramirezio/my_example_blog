@@ -1,121 +1,40 @@
 <?php
 
 namespace app\controllers;
+use app\models\VSite;
+use app\models\Category;
+use app\models\Users;
 
-use Yii;
-use app\models\Article;
-use app\models\ArticleSearch;
-use yii\web\Controller;
-use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
-
-/**
- * ArticleController implements the CRUD actions for Article model.
- */
-class ArticleController extends Controller
+class ArticleController extends \yii\web\Controller
 {
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-        ];
-    }
-
-    /**
-     * Lists all Article models.
-     * @return mixed
-     */
     public function actionIndex()
     {
-        $searchModel = new ArticleSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $models = VSite::find()->orderBy(['a_id'=>SORT_DESC])->all();
+        $m = Category::find()->all();
+        return $this->render('index',['models' => $models,'m' => $m]);
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
     }
 
-    /**
-     * Displays a single Article model.
-     * @param string $id
-     * @return mixed
-     */
-    public function actionView($id)
+    public function actionSingle($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+        $model = VSite::findOne(['a_id'=>$id]);
+        return $this->render('single', ['model'=> $model]);
+    }
+    public function actionContact()
+    {
+        return $this->render('contact');
     }
 
-    /**
-     * Creates a new Article model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreate()
+    public function actionCategory($id)
     {
-        $model = new Article();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
+        $model= VSite::find()->where(['c_id'=>$id])->all();
+        $m = Category::find()->all();
+        return $this->render('category',['model' => $model,'m' => $m]);
     }
 
-    /**
-     * Updates an existing Article model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param string $id
-     * @return mixed
-     */
-    public function actionUpdate($id)
+    public function actionUsers()
     {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
-        }
-    }
-
-    /**
-     * Deletes an existing Article model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param string $id
-     * @return mixed
-     */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
-    }
-
-    /**
-     * Finds the Article model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param string $id
-     * @return Article the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        if (($model = Article::findOne($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
+        $users = Users::find()->all();
+        return $this->render('users', ['users'=>$users]);
     }
 }

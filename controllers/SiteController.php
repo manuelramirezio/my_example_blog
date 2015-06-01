@@ -12,6 +12,8 @@ use app\models\EntryForm;
 
 class SiteController extends Controller
 {
+    public $layout = 'main';
+
     public function behaviors()
     {
         return [

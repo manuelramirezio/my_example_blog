@@ -7,10 +7,21 @@ $config = [
     'name' => 'Блог новостей',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
-    'layout' => 'post',
-    'defaultRoute' => 'post/index',
+    'layout' => 'article',
+    'defaultRoute' => 'article/index',
     'language' => 'ru_RU',
     'charset' => 'utf-8',
+    'modules' => [
+        'yii2images' => [
+            'class' => 'rico\yii2images\Module',
+            //be sure, that permissions ok
+            //if you cant avoid permission errors you have to create "images" folder in web root manually and set 777 permissions
+            'imagesStorePath' => '/load/images/store', //path to origin images
+            'imagesCachePath' => 'load/images/cache', //path to resized copies
+            'graphicsLibrary' => 'GD', //but really its better to use 'Imagick'
+            'placeHolderPath' => '@webroot/images/placeHolder.png', // if you want to get placeholder when image not exists, string will be processed by Yii::getAlias
+        ],
+    ],
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
@@ -45,48 +56,64 @@ $config = [
             ],
         ],
         'db' => require(__DIR__ . '/db.php'),
-        'urlManager' => [ 'enablePrettyUrl' => true,
-        'showScriptName' => false,
-            //'enableStrictParsing' => true,
-            'rules' =>[
-                '' => 'post/index',
-                '<action>'=>'post/<action>',
+        'urlManager' => [
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+            'enableStrictParsing' => true,
+            'rules' => [
+                /*[
+                    'pattern' => '',
+                    'route' => 'site/index',
+                    'suffix' => ''
+                ],*/
+                [
+                    'pattern' => '',
+                    'route' => 'article/index',
+                    'suffix' => ''
+                ],
 
-               /* 'pattern' => '',
-                'route' => 'post/index',
-                'suffix' => ''
-
-            ],
+                /*[
+                    'pattern' => 'найти-<search:\w*>-<year:\d{4}>',
+                    'route' => 'main/search',
+                    'suffix' => '.html'
+                ],
+                [
+                    'pattern' => 'найти-<search:\w*>',
+                    'route' => 'main/search',
+                    'suffix' => '.html'
+                ],*/
                 [
                     'pattern' => '<controller>/<action>/<id:\d+>',
                     'route' => '<controller>/<action>',
                     'suffix' => ''
-
                 ],
-            [
-                'pattern' => '<controller>/<action>',
-                'route' => '<controller>/<action>',
-                'suffix' => '.html'
-
-            ],
-            [
-                'pattern' => '<module>/<controller>/<action><id:\d+>',
-                'route' => '<module>/<controller>/<action>',
-                'suffix' => ''
-
-            ],
-            [
-                'pattern' => '<module>/<controller>/<action>',
-                'route' => '<module>/<controller>/<action>',
-                'suffix' => '.html'
-
-            ],*/
-    ],
-    ],
-    'assetManager' =>[
-        'basePath' => '@webroot/assets',
-        'baseUrl' => '@web/assets'
-        ],
+                /*[
+                    'pattern' => '<controller>/<action>',
+                    'route' => '<controller>/<action>',
+                    'suffix' => '.html'
+                ],*/
+                [
+                    'pattern' => '<controller>/<action>',
+                    'route' => '<controller>/<action>',
+                    'suffix' => ''
+                ],
+                [
+                    'pattern' => '<module>/<controller>/<action>/<id:\d+>',
+                    'route' => '<module>/<controller>/<action>',
+                    'suffix' => ''
+                ],
+                [
+                    'pattern' => '<module>/<controller>/<action>',
+                    'route' => '<module>/<controller>/<action>',
+                    'suffix' => ''
+                ],
+               /* [
+                    'pattern' => '<module>/<controller>/<action>',
+                    'route' => '<module>/<controller>/<action>',
+                    'suffix' => '.html'
+                ],*/
+            ]
+        ]
     ],
     'params' => $params,
 ];

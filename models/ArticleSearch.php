@@ -18,7 +18,7 @@ class ArticleSearch extends Article
     public function rules()
     {
         return [
-            [['id', 'category_id'], 'integer'],
+            [['id', 'category_id', 'user_id', 'date_create', 'date_update'], 'integer'],
             [['title', 'text', 'image'], 'safe'],
         ];
     }
@@ -50,7 +50,7 @@ class ArticleSearch extends Article
         $this->load($params);
 
         if (!$this->validate()) {
-            // uncomment the following line if you do not want to any records when validation fails
+            // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
             return $dataProvider;
         }
@@ -58,6 +58,9 @@ class ArticleSearch extends Article
         $query->andFilterWhere([
             'id' => $this->id,
             'category_id' => $this->category_id,
+            'user_id' => $this->user_id,
+            'date_create' => $this->date_create,
+            'date_update' => $this->date_update,
         ]);
 
         $query->andFilterWhere(['like', 'title', $this->title])
